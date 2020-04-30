@@ -1,17 +1,60 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-	<meta charset="utf-8">
-	<title>Musica</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>GERADOR DE LINK PARA WHATSAPP</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
 </head>
+<style type="text/css">
+    .navCor {background-color: #e74c3c;}
+    #mensagem { color: rgb(255,255,255);font-size:18px; padding-top: 10px; }
+    body {background-image: url(fundo.jpg);}
+</style>
 <body>
-<audio id="TegAudio" autoplay="autoplay" controls="controls" >
-  <source src="musica.mp3" type="audio/mpeg">
-  O seu navegador não suporta audio. 
-</audio>
-<script type="text/javascript">
-var x = document.getElementById("TegAudio"); 
-x.play();  
-</script>
+    <nav id="feedbackMensagemErro" class="navCor navbar navbar-fixed-bottom" hidden="hidden">
+      <div class="container-fluid">
+        <p class="navbar-text"><center><span id="mensagem">O seus dados de contato está incorreto, veja o formato DD 9XXXXXXXX</span></center></p>
+      </div>
+    </nav>
+    <div id="formulario" class="contact-clean animated ">
+    <form>
+        <h2 class="text-center"><br><strong>GERADOR DE LINK PARA WHATSAPP</strong><br><br></h2>
+        <div class="form-group has-success"><input id="contato" class="form-control" type="text" placeholder="(99) 999999999"></div>
+        <div class="form-group"><textarea class="form-control" rows="14" name="message" placeholder="Escrever Texto"></textarea></div>
+        <div class="form-group"><button class="btn btn-primary btn-block" type="button">GERAR LINK</button></div>
+    </form>
+    </div>
+    <div class="container-fluid">
+        <div class="row"></div>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        $("button").on("click",function(){
+            console.log("click")
+            var contato = $("#contato").val();
+            console.log(contato);
+
+            if (contato.length == 11 && isNaN(contato) == false) 
+            {
+                console.log("quantidade correta!");
+
+                $("#formulario").addClass("bounceIn");
+            }
+            else
+            {
+                console.log("O seu contato está incorreto veja o formato DD 9xxxxxxxx!");
+                $("#feedbackMensagemErro").css("display","block");
+
+            }
+
+        });
+    </script>
 </body>
+
 </html>
