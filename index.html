@@ -9,11 +9,12 @@
     <link rel="stylesheet" href="assets/css/Contact-Form-Clean.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <link id="favicon" rel="shortcut icon" href="favicon.png" type="image/png">
 </head>
 <style type="text/css">
     .navCor {background-color: #e74c3c;}
     #mensagem { color: rgb(255,255,255);font-size:18px; padding-top: 10px; }
-    body {background-image: url(fundo.jpg);}
+    body {background-image: url(fundo.png); background-repeat: repeat;}
 </style>
 <body>
     <nav id="feedbackMensagemErro" class="navCor navbar navbar-fixed-bottom" hidden="hidden">
@@ -24,9 +25,15 @@
     <div id="formulario" class="contact-clean animated ">
     <form>
         <h2 class="text-center"><br><strong>GERADOR DE LINK PARA WHATSAPP</strong><br><br></h2>
-        <div class="form-group has-success"><input id="contato" class="form-control" type="text" placeholder="(99) 999999999"></div>
-        <div class="form-group"><textarea class="form-control" rows="14" name="message" placeholder="Escrever Texto"></textarea></div>
-        <div class="form-group"><button class="btn btn-primary btn-block" type="button">GERAR LINK</button></div>
+        <span id="escrita" >
+            <div class="form-group has-success"><input id="contato" maxlength="11" class="form-control" type="text" placeholder="(99) 999999999"></div>
+            <div class="form-group"><textarea id="textEntrada" class="form-control" rows="14" name="message" placeholder="Escrever Texto"></textarea></div>
+            <div class="form-group"><button id="bntAcao" class="btn btn-primary btn-block" type="button">GERAR LINK</button></div>
+        </span>
+        <span id="mostrar" hidden="hidden" >
+            <div class="form-group"><textarea id="textoLink" class="form-control" rows="14" name="message" placeholder="Escrever Texto"></textarea></div>
+        <div class="form-group"><button id="btnCopiar" class="btn btn-primary btn-block" type="button">COPIAR LINK</button></div>
+        </span>
     </form>
     </div>
     <div class="container-fluid">
@@ -35,7 +42,12 @@
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript">
-        $("button").on("click",function(){
+        var link = "https://api.whatsapp.com/send?phone=55&text=a";
+        var texto = ["https://api.whatsapp.com/send?phone=55","&text="];
+
+
+        console.log(texto[0] + "kjbkjgkb");
+        $("#bntAcao").on("click",function(){
             console.log("click")
             var contato = $("#contato").val();
             console.log(contato);
@@ -43,15 +55,44 @@
             if (contato.length == 11 && isNaN(contato) == false) 
             {
                 console.log("quantidade correta!");
-
                 $("#formulario").addClass("bounceIn");
+                $("#escrita").hide();
+                $("#mostrar").show();
+
+                if ($("#textEntrada").val().length > 0)
+                 {
+                    console.log("indetificou que tem texto");
+                    console.log(texto[0] + $("#contato").val() + texto[1] + $("#textEntrada").val());
+                    $("#textoLink").val(texto[0] + $("#contato").val() + texto[1] + $("#textEntrada").val());
+                    
+                    $("#textoLink").select();
+                    //document.execCommand("copy");
+                 }
+                 else
+                 {
+                    console.log("Não foi digitado nenhum texto!");
+                    console.log(texto[0] + $("#contato").val());
+                    $("#textoLink").select();
+
+                    $("#textoLink").val(texto[0] + $("#contato").val());
+                 }
+                
             }
             else
             {
                 console.log("O seu contato está incorreto veja o formato DD 9xxxxxxxx!");
-                $("#feedbackMensagemErro").css("display","block");
+                $("#feedbackMensagemErro").show();
+                setTimeout(function(){$("#feedbackMensagemErro").hide();},'2500');
 
             }
+
+            $("#btnCopiar").on("click",function() {
+                $("#textoLink").select();
+                document.execCommand("copy");
+                $("#feedbackMensagemErro").css("background-color","#5cb85c") //#5cb85c
+                $("#mensagem").text("Link Copiado Com Sucesso!");
+                $("#feedbackMensagemErro").show();
+            });
 
         });
     </script>
